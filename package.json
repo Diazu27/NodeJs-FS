@@ -1,0 +1,18 @@
+{
+  "name": "Tarea3-AndresDiaz-62011740",
+  "version": "1.0.0",
+  "description": "",
+  "main": "AppTarea.js",
+  "dependencies": {
+    "cli-table": "^0.3.6",
+    "colors": "^1.4.0",
+    "inquirer": "^8.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
