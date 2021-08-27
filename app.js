@@ -1,34 +1,13 @@
+  //Inicio de escritura
+  const InitialByte = parseInt(inodeList[id-1].finalByte);
 
-var buffer_completo = Buffer.alloc(20);
+  //creo el bloque datos o buffer
+  let bufferEspecifico = Buffer.alloc(80);
+  bufferEspecifico.write(`${id}-${data}-${ActualDate()}-`);
+  let dataFinal = bufferEspecifico.toString('base64'); 
 
-console.log(buffer_completo);
+  //Se sobreescribe la data    
+  await handle.write(dataFinal, InitialByte);
 
-buffer_completo.write("Andres    ");
-
-console.log(buffer_completo);
-
-
-var prueba = buffer_completo.subarray(0, 10);
-
-
-/*Nota
-    1 char = 1byte;
-
-
-    Con el subarray le estoy diciendo que me muestre del byte a l otro byte;
-
-    Alloc(), crea un buffer con tamaño especifico;
-
-
-
-    Idea: Escribir buffers por tamaños especificos,
-    cuando se lean, crear un arreglo que los corte de cierta cantidad de bits cada vez y las meta en un arreglo,
-    cada buffer será un arreglo y se puede acceder a los datos con un trim o split, Crear clases que hagan la recoleccion de datos.
-
-
-    Nota: Investigar como escribir sin borrar el contenido
-    Nota: Si da tiempo, seria cool devolver JSON para la api,
-
-
-*/
-
+  //actualizo la lista
+  await UpdateMainData(id);

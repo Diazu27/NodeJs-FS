@@ -1,4 +1,4 @@
-const { SaveProduct, ReadMainData, InitMainData, findById, getProducts,EditProducts } = require("./Helpers/DataManage");
+const { SaveProduct, ReadMainData, InitMainData, findById, getProducts,EditProducts, DeleteProduct,mostrarJson } = require("./Helpers/DataManage");
 const { inquirerMenu, NewProductMenu, pause, ListProducts, FindId,FindIdTitle,  EditProductsMenu, Consulta  } = require("./Helpers/Interface");
 
 const main = async()=>{
@@ -23,30 +23,54 @@ const main = async()=>{
                 await pause();
                 break;
             
-            case 5:
+            case 3: 
+            id = await FindId();
+            obj =  await findById(id);
+            await ListProducts(obj);
+
+            const a = await Consulta();
+
+            if(a){
+                
+                if(id){
+                    await DeleteProduct(id);
+                }
+
+            }
+
+
+            await pause();
+            break;
+            
+            case 4:
                 id = await FindIdTitle();
                 obj =  await findById(id);
                 ListProducts(obj);
                 await pause();
                 break;
 
-            case 6:
+            case 5:
                 id = await FindId();
                 obj =  await findById(id);
                 await ListProducts(obj);
-                const d = await Consulta();
-               
-                if(d){
-                    let {data, optChange} = await EditProductsMenu();
-                    await EditProducts(id,data,optChange);
-                    await pause();
-                    
-                }
+              
 
+                if(obj){
+                    const d = await Consulta();
+               
+                    if(d){
+                        let {data, optChange} = await EditProductsMenu();
+                        await EditProducts(id,data,optChange);
+                        await pause(); 
+                    }
+                    
+                }else{
+                    await pause();
+                }
                 
                 break;
 
-            case 7:
+            case 6:
                 await InitMainData();
                 await pause();
             break;

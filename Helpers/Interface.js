@@ -25,21 +25,17 @@ const preguntas = [
             },
             {
                 value: 4,
-                name: '4. Vender Productos'
+                name: '4. Buscar por Id'
+               
             },
             {
                 value: 5,
-                name: '5. Buscar por Id'
+                name: '5. Editar Producto'
                
             },
             {
                 value: 6,
-                name: '6. Editar Producto'
-               
-            },
-            {
-                value: 7,
-                name: '7. Mantenimiento Base datos'
+                name: '6. Mantenimiento Base datos'
                
             },
             {
@@ -114,18 +110,30 @@ const ListProducts = (products) =>{
 
     var table = new Table();
 
-    table.push(
-        ['Id'.green, 'Modelo'.green, 'Material'.green, 'En Stock'.green, 'fecha'.green]
-    ); 
-
-    for (const product of products) {
+    
+      if(products){
         table.push(
-            [product.id, product.model, product.material, product.stock, product.date]
-        );  
-    }
+            ['Id'.green, 'Modelo'.green, 'Material'.green, 'En Stock'.green, 'fecha'.green]
+        ); 
 
-    console.log("");
-    console.log(table.toString());
+        for (const product of products) {
+            table.push(
+                [product.id, product.model, product.material, product.stock, product.date]
+            );  
+        }
+
+
+        console.log("");
+        console.log(table.toString());
+
+
+      }else{
+          console.log("------------------");
+          console.log("No existe data".red);
+          console.log("------------------");
+      }
+
+  
 }
 
 
@@ -225,13 +233,23 @@ const FindIdTitle =async ()=>{
 const FindId =async ()=>{
 
     console.clear();
+
+
     const {id} = await inquirer.prompt([{
         type: 'input',
         name: 'id',
         message: `Escriba el id del producto: \n R// `
     }])
 
-    return parseInt(id);
+
+    if(isNaN(id)){
+        console.log("------------------");
+        console.log("Escriba un número".red);
+        console.log("------------------");
+
+    }else{
+        return parseInt(id);
+    }
 }
 
 
