@@ -5,13 +5,6 @@ const inquirer = require('inquirer');
 const path = './Data.dat';
 
 
-
-
-
-
-
-
-
 //Devulve un arreglo con todos los objetos de productos
 const getProducts = async()=>{
     
@@ -202,6 +195,59 @@ const SaveProduct =  async(data) =>{
 }
 
 
+const sellProduct = async(idP, cant)=>{
+    const {superData,inodeList,Bmp}= await ReadMainData();
+
+    const handle = await fs.open(path, "r+");
+    const InitialByte = parseInt(inodeList[idP-1].finalByte);
+    let {id, model, material, stock} = await readBlock(InitialByte);
+
+    
+    if(stock<cant){
+        
+        console.log("\n-----------------------".red);
+        console.log("No hay suficiente Stock".red);
+        console.log("-----------------------".red);
+        
+    }else{
+
+        
+
+        //pregunta de confirmación
+        const {opt} = await inquirer.prompt([{
+            type: 'confirm',
+            name: 'opt',
+            message: `¿Seguro que quiere vender este producto? `
+        }]); 
+
+        let a = parseInt(stock);
+        let b = parseInt(cant);
+        
+        //Resto la cantidad
+        stock = a-b;
+
+        //creo el bloque datos o buffer
+        let bufferEspecifico = Buffer.alloc(80);
+        bufferEspecifico.write(`${id}-${model}-${material}-${stock}-${ActualDate()}-`);
+    
+        let dataFinal = bufferEspecifico.toString('base64'); 
+    
+     
+        if(opt){
+
+            //Se sobreescribe la data    
+            const {numberOfBytesWritten} =await handle.write(dataFinal, InitialByte);
+            
+        }
+    
+       
+    }
+
+    handle.close()
+}
+
+
+
 const ActualDate = ()=>{
     let date = new Date()
 
@@ -239,6 +285,12 @@ const DeleteProduct= async(id)=>{
 }
 
 // Main data me refiero a los archivos base como el Super, Inodes 
+
+
+const UpdateSuper = ()=>{
+
+}
+
 
 
 const UpdateMainData = async(id)=>{
@@ -393,5 +445,6 @@ module.exports = {
     UpdateMainData,
     ReadMainData,
     DeleteProduct,
-    mostrarJson
+    mostrarJson,
+    sellProduct
 }

@@ -39,6 +39,10 @@ const preguntas = [
                
             },
             {
+                value: 7,
+                name: '7. Venta de producto'
+            },
+            {
                 value: 0,
                 name: '0. Salir'
             }
@@ -70,6 +74,20 @@ const pause = async()=>{
     console.log('\n');
     await inquirer.prompt(question);
 
+}
+
+const Cantidad = async()=>{
+
+    const question = [{
+        type: 'input',
+        name: 'cant',
+        message: `¿Cuantos productos se venderan?`
+    }];
+
+    console.log('\n');
+    
+    const {cant} =await inquirer.prompt(question);
+    return cant
 }
 
 
@@ -117,8 +135,20 @@ const ListProducts = (products) =>{
         ); 
 
         for (const product of products) {
+
+
+            let stock;
+
+            
+            if(product.stock < 5){
+                stock = product.stock.red;
+            }else{
+                stock = product.stock.green;
+            }
+           
+
             table.push(
-                [product.id, product.model, product.material, product.stock, product.date]
+                [product.id, product.model, product.material, stock, product.date]
             );  
         }
 
@@ -128,9 +158,9 @@ const ListProducts = (products) =>{
 
 
       }else{
-          console.log("------------------");
-          console.log("No existe data".red);
-          console.log("------------------");
+        console.log("\n-----------------------".red);
+        console.log("No existe producto".red);
+        console.log("-----------------------".red);
       }
 
   
@@ -243,9 +273,9 @@ const FindId =async ()=>{
 
 
     if(isNaN(id)){
-        console.log("------------------");
-        console.log("Escriba un número".red);
-        console.log("------------------");
+        console.log("\n-----------------------".red);
+        console.log("Tiene que ser un numero".red);
+        console.log("-----------------------".red);
 
     }else{
         return parseInt(id);
@@ -262,4 +292,5 @@ module.exports = {
     FindIdTitle,
     EditProductsMenu,
     Consulta,
+    Cantidad
 }

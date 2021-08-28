@@ -1,5 +1,5 @@
-const { SaveProduct, ReadMainData, InitMainData, findById, getProducts,EditProducts, DeleteProduct,mostrarJson } = require("./Helpers/DataManage");
-const { inquirerMenu, NewProductMenu, pause, ListProducts, FindId,FindIdTitle,  EditProductsMenu, Consulta  } = require("./Helpers/Interface");
+const { SaveProduct, ReadMainData, InitMainData, findById, getProducts,EditProducts, DeleteProduct,mostrarJson, sellProduct } = require("./Helpers/DataManage");
+const { inquirerMenu, NewProductMenu, pause, ListProducts, FindId,FindIdTitle,  EditProductsMenu, Consulta, Cantidad } = require("./Helpers/Interface");
 
 const main = async()=>{
 
@@ -38,7 +38,6 @@ const main = async()=>{
 
             }
 
-
             await pause();
             break;
             
@@ -74,6 +73,22 @@ const main = async()=>{
                 await InitMainData();
                 await pause();
             break;
+
+
+            case 7: 
+                id = await FindId();
+                obj =  await findById(id);
+                await ListProducts(obj);
+
+
+                const d = await Consulta();
+               
+                if(d){
+                    const cant = await Cantidad();
+                    await sellProduct(id,cant);
+                }
+                await pause();
+                break;
                
             case 0: 
                 return false;
